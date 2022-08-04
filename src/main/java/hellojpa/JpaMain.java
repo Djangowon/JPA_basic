@@ -16,31 +16,29 @@ public class JpaMain {
         tx.begin();
 
         try {
-            /*//생성
-            Member member = new Member();
-            member.setId(3L);
-            member.setName("HelloC");
+            /*//1차 캐시
+            Member findeMember1 = em.find(Member.class, 103L);
+            Member findeMember2 = em.find(Member.class, 103L);*/
 
-            em.persist(member);*/
+            /*//영속 엔티티 동일성
+            System.out.println("result : " + (findeMember1 == findeMember2));*/
 
-            /*//조회
-            Member findMember = em.find(Member.class, 1L);
-            System.out.println("findMember.getId() : " + findMember.getId());
-            System.out.println("findMember.getName() : " + findMember.getName());*/
+            /*//엔티티 등록 - 트랜잭션을 지원하는 쓰기 지연
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(151L, "B");
 
-            /*//수정
-            Member findMember = em.find(Member.class, 1L);
-            findMember.setName("HelloJPA");*/
+            em.persist(member1);
+            em.persist(member2);
 
-            //JPQL
-            List<Member> members = em.createQuery("SELECT m FROM Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
-                    .getResultList();
+            System.out.println("-------");*/
 
-            for (Member member : members) {
-                System.out.println("member : " + member.getName() );
-            }
+            /*//엔티티 수정 - 변경 감지
+            Member member = em.find(Member.class, 150L);
+            member.setName("ZZZ");*/
+
+            //엔티티 삭제
+            Member member = em.find(Member.class, 150L);
+            em.remove(member);
 
             tx.commit();
         } catch (Exception e) {
