@@ -5,19 +5,23 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-@TableGenerator(
-        name = "MEMBER_SEQ_GENERATOR",
-        table = "MY_SEQUENCES",
-        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,
-            generator = "MEMBER_SEQ_GENERATOR")
+    @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "username")
     private String username;
+
+
+//    @Column(name = "team_id") //테이블 연관관계
+//    private Long teamId;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id") //객체 연관관계
+    private Team team;
 
     public Long getId() {
         return id;
@@ -33,5 +37,13 @@ public class Member {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
