@@ -23,15 +23,21 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-//            member.setTeamId(team.getId()); //테이블 연관관계
-            member.setTeam(team); //단방향 연관관계 설정, 참조 저장
+//            member.changeTeam(team); //**
             em.persist(member);
+
+            team.addMember(member);
+
+            em.flush();
+            em.clear();
 
             Member findMember = em.find(Member.class, member.getId());
 
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam : " + findTeam.getName());
+            List<Member> members = findMember.getTeam().getMembers();
 
+            for (Member m : members) {
+                System.out.println("m : " + m.getUsername());
+            }
 
             tx.commit();
         } catch (Exception e) {
