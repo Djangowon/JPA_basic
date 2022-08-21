@@ -15,12 +15,8 @@ public class Member {
     @Column(name = "username")
     private String username;
 
-
-//    @Column(name = "team_id") //테이블 연관관계
-//    private Long teamId;
-
     @ManyToOne
-    @JoinColumn(name = "team_id") //객체 연관관계
+    @JoinColumn(name = "team_id", insertable = false, updatable = false) //읽기 전용 필드를 사용해서 양방향처럼 사용함
     private Team team;
 
     public Long getId() {
@@ -38,17 +34,4 @@ public class Member {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    /*public void changeTeam(Team team) {
-        this.team = team;
-        team.getMembers().add(this); //연관관계 편의 메소드
-    }*/
 }
