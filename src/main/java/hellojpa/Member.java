@@ -19,6 +19,10 @@ public class Member {
     @JoinColumn(name = "team_id", insertable = false, updatable = false) //읽기 전용 필드를 사용해서 양방향처럼 사용함
     private Team team;
 
+    @OneToOne
+    @JoinColumn(name = "locker_id")
+    private Locker locker;
+
     public Long getId() {
         return id;
     }
